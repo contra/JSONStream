@@ -23,15 +23,16 @@ exports.parse = function (path, map) {
     parser.write(chunk)
   },
   function (data) {
-    if (parser.tState != Parser.C.START) {
-        stream.emit('error', new Error('Incomplete JSON'));
-    }
     if(data)
       stream.write(data)
     if (header)
         stream.emit('header', header)
     if (footer)
       stream.emit('footer', footer)
+
+    if (parser.tState != Parser.C.START) {
+        stream.emit('error', new Error('Incomplete JSON'));
+    }
     stream.queue(null)
   })
 
