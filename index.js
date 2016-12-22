@@ -33,7 +33,6 @@ exports.parse = function (path, map) {
     if (footer)
       stream.emit('footer', footer)
     stream.queue(null)
-    console.log(`State: ${parser.tState}`);
   })
 
   if('string' === typeof path)
