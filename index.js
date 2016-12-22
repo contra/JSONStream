@@ -23,6 +23,9 @@ exports.parse = function (path, map) {
     parser.write(chunk)
   },
   function (data) {
+    if (parser.tState != Parser.C.START) {
+        stream.emit('error', new Error('Incomplete JSON'));
+    }
     if(data)
       stream.write(data)
     if (header)
@@ -30,6 +33,7 @@ exports.parse = function (path, map) {
     if (footer)
       stream.emit('footer', footer)
     stream.queue(null)
+    console.log(`State: ${parser.tState}`);
   })
 
   if('string' === typeof path)
