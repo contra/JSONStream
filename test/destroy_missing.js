@@ -19,9 +19,13 @@ var server = net.createServer(function(connection) {
       connection.end();
     })
 });
-server.listen(9999);
 
+server.listen(() => {
+    var port = server.address().port
 
-var client = net.connect({ port : 9999 }, function() {
-    fs.createReadStream(file).pipe(client).on('data', console.log) //.resume();
+    console.log('Listening on port ' + port)
+    var client = net.connect({ port : port }, function() {
+        fs.createReadStream(file).pipe(client).on('data', console.log) //.resume();
+    });
 });
+

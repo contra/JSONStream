@@ -21,9 +21,13 @@ var server = net.createServer(function(client) {
     });
     client.pipe(parser);
 });
-server.listen(9999);
 
-var client = net.connect({ port : 9999 }, function() {
-    var msgs = str + '}';
-    client.end(msgs);
+server.listen(() => {
+    var port = server.address().port
+
+    console.log('Listening on port ' + port)
+    var client = net.connect({ port : port }, function() {
+        var msgs = str + '}';
+        client.end(msgs);
+    });
 });
