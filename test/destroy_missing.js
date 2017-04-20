@@ -5,18 +5,18 @@ var file = join(__dirname, 'fixtures','all_npm.json');
 var JSONStream = require('../');
 
 
-var server = net.createServer(function(client) {
+var server = net.createServer(function(connection) {
     var parser = JSONStream.parse([]);
     parser.on('end', function() {
         console.log('close')
         console.error('PASSED');
         server.close();
     });
-    client.pipe(parser);
+    connection.pipe(parser);
     var n = 4
-    client.on('data', function () {
+    connection.on('data', function () {
       if(--n) return
-      client.end();
+      connection.end();
     })
 });
 server.listen(9999);

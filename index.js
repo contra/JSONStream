@@ -33,7 +33,9 @@ exports.parse = function (path, map) {
     if (parser.tState != Parser.C.START) {
       stream.emit('error', new Error('Incomplete JSON'))
       if(!stream.writable && stream.autoDestroy) {
-        stream.destroy()
+        process.nextTick(function () {
+          stream.destroy()
+        });
       }
     } else {
       stream.queue(null)
