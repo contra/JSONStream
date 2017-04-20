@@ -18,13 +18,11 @@ exports.parse = function (path, map) {
   var header, footer
   var parser = new Parser()
   var stream = through(function (chunk) {
-    console.log("Called write");
     if('string' === typeof chunk)
       chunk = bufferFrom ? Buffer.from(chunk) : new Buffer(chunk)
     parser.write(chunk)
   },
   function (data) {
-    console.log("Called end");
     if(data)
       stream.write(data)
     if (header)
