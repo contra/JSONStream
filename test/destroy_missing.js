@@ -4,19 +4,19 @@ var join = require('path').join;
 var file = join(__dirname, 'fixtures','all_npm.json');
 var JSONStream = require('../');
 
-
 var server = net.createServer(function(connection) {
     var parser = JSONStream.parse([]);
-    parser.on('end', function() {
+    parser.on('close', function() {
         console.log('close')
         console.error('PASSED');
         server.close();
     });
-    connection.pipe(parser);
-    var n = 4
+    parser.on('error', function (err) {
+        console.log('Parser error as expected: ' + err.message)
+    })
+    connection.pipe(parser)
     connection.on('data', function () {
-      if(--n) return
-      connection.end();
+        connection.end();
     })
 });
 
@@ -28,4 +28,3 @@ server.listen(() => {
         fs.createReadStream(file).pipe(client).on('data', console.log) //.resume();
     });
 });
-
