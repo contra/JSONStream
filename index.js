@@ -30,7 +30,7 @@ exports.parse = function (path, map) {
     if (footer)
       stream.emit('footer', footer)
 
-    if (parser.tState != Parser.C.START) {
+    if (parser.tState != Parser.C.START || parser.stack.length > 0) {
       stream.emit('error', new Error('Incomplete JSON'))
       if(!stream.writable && stream.autoDestroy) {
         process.nextTick(function () {

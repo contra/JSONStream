@@ -46,6 +46,18 @@ test('#112 "Incomplete JSON" error is emitted', function (t) {
     stream.end()
 })
 
+test('#112 "Incomplete JSON" error is emitted with different JSON', function (t) {
+    var stream = JSONStream
+        .parse()
+        .on('error', function (err) {
+            t.ok("error emitted: " + err.message)
+            t.end()
+        })
+
+    stream.write('{"rows":[{"id":"id-1","name":"Name A"}') // I changed the incomplete JSON
+    stream.end()
+})
+
 test('#112 end is not emmitted after error', function (t) {
    var ended = 0
    var stream = JSONStream
