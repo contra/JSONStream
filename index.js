@@ -207,14 +207,21 @@ exports.stringify = function (op, sep, cl, indent) {
     } catch (err) {
       return stream.emit('error', err)
     }
-    if(first) { first = false ; stream.queue(op + json)}
+    if(first) { first = false ; stream.queue((typeof op === 'function' ? op() : op) + json)}
     else stream.queue(sep + json)
   },
   function (data) {
-    if(!anyData)
-      stream.queue(op)
-    stream.queue(cl)
-    stream.queue(null)
+    if(!anyData) stream.queue(op)
+    if (typeof cl === 'function') {
+      cl(function (err, res) {
+        if (err) return this.emit('error', err)
+        this.queue(res)
+        this.queue(null)
+      }.bind(this))
+      return
+    }
+    this.queue(cl)
+    this.queue(null)
   })
 
   return stream
@@ -241,17 +248,22 @@ exports.stringifyObject = function (op, sep, cl, indent) {
   var stream = through(function (data) {
     anyData = true
     var json = JSON.stringify(data[0]) + ':' + JSON.stringify(data[1], null, indent)
-    if(first) { first = false ; this.queue(op + json)}
+    if(first) { first = false ; this.queue((typeof op === 'function' ? op() : op) + json)}
     else this.queue(sep + json)
   },
   function (data) {
     if(!anyData) this.queue(op)
+    if (typeof cl === 'function') {
+      cl(function (err, res) {
+        if (err) return this.emit('error', err)
+        this.queue(res)
+        this.queue(null)
+      }.bind(this))
+      return
+    }
     this.queue(cl)
-
     this.queue(null)
   })
 
   return stream
 }
-
-
