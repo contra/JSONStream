@@ -1,18 +1,28 @@
+# Fork Notes
+
+This project is a fork of [dominictarr/JSONStream](https://github.com/dominictarr/JSONStream) that:
+
+- Pulls in PRs that fix bugs and makes them all work
+- Adds support for async flush functions
+- Promises to be responsive to future PRs + stay up to date
+
+All thanks and credit goes to the original maintainers!
+
 # JSONStream
 
 streaming JSON.parse and stringify
 
-![](https://secure.travis-ci.org/dominictarr/JSONStream.png?branch=master)
+![](https://secure.travis-ci.org/contra/JSONStream.png?branch=master)
 
 ## install
-```npm install JSONStream```
+```npm install jsonstream-next```
 
 ## example
 
 ``` js
 
 var request = require('request')
-  , JSONStream = require('JSONStream')
+  , JSONStream = require('jsonstream-next')
   , es = require('event-stream')
 
 request({url: 'http://isaacs.couchone.com/registry/_all_docs'})
@@ -118,9 +128,9 @@ stream.on('data', function(data) {
 
 ### recursive patterns (..)
 
-`JSONStream.parse('docs..value')` 
+`JSONStream.parse('docs..value')`
 (or `JSONStream.parse(['docs', {recurse: true}, 'value'])` using an array)
-will emit every `value` object that is a child, grand-child, etc. of the 
+will emit every `value` object that is a child, grand-child, etc. of the
 `docs` object. In this example, it will match exactly 5 times at various depth
 levels, emitting 0, 1, 2, 3 and 4 as results.
 
@@ -204,4 +214,3 @@ https://github.com/Floby/node-json-streams
 ## license
 
 Dual-licensed under the MIT License or the Apache License, version 2.0
-
