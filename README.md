@@ -5,6 +5,7 @@ This project is a fork of [dominictarr/JSONStream](https://github.com/dominictar
 - Pulls in PRs that fix bugs and makes them all work
 - Adds support for async flush functions
 - Promises to be responsive to future PRs + stay up to date
+- Update to use latest node and streaming patterns
 
 All thanks and credit goes to the original maintainers!
 
@@ -19,13 +20,12 @@ streaming JSON.parse and stringify
 
 ## example
 
-``` js
+```js
+const request = require('request')
+const JSONStream = require('jsonstream-next')
+const es = require('event-stream')
 
-var request = require('request')
-  , JSONStream = require('jsonstream-next')
-  , es = require('event-stream')
-
-request({url: 'http://isaacs.couchone.com/registry/_all_docs'})
+request({ url: 'http://isaacs.couchone.com/registry/_all_docs' })
   .pipe(JSONStream.parse('rows.*'))
   .pipe(es.mapSync(function (data) {
     console.error(data)
