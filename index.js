@@ -29,8 +29,7 @@ exports.parse = function (path, map) {
       else return e
     })
 
-  let count = 0,
-    _key
+  let count = 0, _key
   if (!path || !path.length) path = null
 
   parser.onValue = function (value) {
@@ -119,7 +118,7 @@ exports.parse = function (path, map) {
 
   parser.onError = function (err) {
     if (err.message.indexOf('at position') > -1) err.message = 'Invalid JSON (' + err.message + ')'
-    stream.emit('error', err)
+    stream.destroy(err)
   }
 
   return stream

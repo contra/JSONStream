@@ -1,6 +1,6 @@
 {
   "name": "jsonstream-next",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "rawStream.pipe(JSONStream.parse()).pipe(streamOfObjects)",
   "homepage": "http://github.com/contra/JSONStream",
   "repository": {

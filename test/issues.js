@@ -10,8 +10,8 @@ test("#66", function (t) {
     })
     .on("finish", function () {
       t.ok(
-        error === 2,
-        "expect error to be called twice ('Invalid JSON', 'Incomplete JSON'): " +
+        error === 1,
+        "expect error to be called twice ('Invalid JSON'): " +
           error
       );
       t.end();
